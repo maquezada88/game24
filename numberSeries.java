@@ -1,5 +1,6 @@
 import java.util.*;
 import org.javatuples.Quartet;
+import org.javatuples.Triplet;
 
 class numberSeries {
 	
@@ -76,11 +77,11 @@ class numberSeries {
 		return null;
 	}
 	
-	int calc1(int op1, int op2, String operand)
+	int calc1(int op1, int op2, String op)
 	{
 		int result = 0;
 		
-		switch(operand)
+		switch(op)
 		{
 			case "+":
 				result = op1 + op2;
@@ -96,13 +97,34 @@ class numberSeries {
 				result = op1 * op2;
 				break;
 			default:
-				System.out.println("DEFAULT SWTICH CASE");
+				System.out.println("Incorrect operator.");
 				break;
 		}
 		
 		
 		return result;
 	}
+	
+	static Triplet removeNum(int val, Quartet nums)
+	{
+		Triplet<Integer, Integer, Integer> trips;
+		int counter;
+		System.out.println("REMOVE MOETHOD");
+		
+			if( (Integer)val == nums.getValue0())
+				trips = nums.removeFrom0();
+			else if( (Integer)val == nums.getValue1())
+				trips = nums.removeFrom1();
+			else if( (Integer)val == nums.getValue2())
+				trips = nums.removeFrom2();
+			else
+				trips = nums.removeFrom3();
+			
+			return trips;
+				
+	}
+	
+	
 	
 	
 }
