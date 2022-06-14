@@ -1,19 +1,24 @@
 import org.javatuples.Quartet;
 import org.javatuples.Triplet;
 import java.util.*;
-class HelloWorld extends numberSeries
+class game extends numberSeries
 {
+	
 	static int difficulty;
 	static Quartet<Integer, Integer, Integer, Integer> nums;
-	static Integer num1;
-	static Integer num2;
 	static Triplet<Integer, Integer, Integer> tripNums;
+	static int num1;
+	static int num2;
+	static char op ;
 	
 
 	public static void main(String args[]) 
 	{
 		
 		int temp;
+		Character[] operators = {'+', '-', '*', '/'};
+		String expression;
+
 		System.out.println("Welcome to 24.");
 		System.out.println("Choose level of difficulty!");
 		System.out.println("1 = easy");
@@ -23,7 +28,7 @@ class HelloWorld extends numberSeries
 		Scanner input = new Scanner(System.in);    //System.in is a standard input stream
 		difficulty = input.nextInt();  
 		
-		if(  difficulty > 3 || difficulty < 1) //Make sure user input is correct.
+		if(  difficulty > 3 || difficulty < 1) //Make sure user input is valid.
 		{
 			while( difficulty > 3 || difficulty <1)
 			{
@@ -32,6 +37,9 @@ class HelloWorld extends numberSeries
 			}
 		}
 		
+		
+		//skip remaining line
+		input.nextLine();
 		
 		//get list depending on difficulty
 		if(difficulty == 1)
@@ -43,21 +51,24 @@ class HelloWorld extends numberSeries
 		
 		System.out.println("Use addition, subtraction, division, or multiplication to get the sum of 24!");
 		System.out.println("List of numbers available to use:");
-		System.out.println("Press enter after each input.");
 		System.out.println(nums);
+		System.out.println("Enter an expression.");
+
+		//Get string expression input.
+		expression = input.nextLine();
+		System.out.println(expression);
 		
-		num1 = input.nextInt();
 		
-		while ( !nums.contains(num1)) {
-			System.out.println("Invalid input. Try again.");
-			num1 = input.nextInt();
-		}
+		//make sure input is valid
+		if( ! isExpressionValid(expression, operators))
+			while(! isExpressionValid(expression, operators))
+			{
+				System.out.println("Invalid expression. Try again.");
+				expression = input.nextLine();
+			}
 		
-		temp = nums.indexOf(num1);
-		tripNums = removeNum(temp, nums);
-		
-		System.out.println(tripNums);
-		
+		convertInput(expression);
+			
 	}
 	
 }
