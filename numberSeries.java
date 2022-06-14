@@ -77,23 +77,23 @@ class numberSeries {
 		return null;
 	}
 	
-	int calc1(int op1, int op2, String op)
+	int calc1(int op1, int op2, char op)
 	{
 		int result = 0;
 		
 		switch(op)
 		{
-			case "+":
+			case '+':
 				result = op1 + op2;
 				break;
-			case "-":
+			case '-':
 				result = op1 - op2;
 				break;
-			case "/":
+			case '/':
 				result = op1 / op2;
 				break;
 				
-			case "*":
+			case '*':
 				result = op1 * op2;
 				break;
 			default:
@@ -124,7 +124,26 @@ class numberSeries {
 				
 	}
 	
+	static boolean isExpressionValid(String expression, Character[] operators)
+	{
+		
+		List<Character> charList = new ArrayList<>(Arrays.asList(operators));
+		
+		if( Character.isDigit(expression.replaceAll(" ", "").charAt(0)) && Character.isDigit(expression.replaceAll(" ", "").charAt(2))
+				&& charList.contains(expression.replaceAll(" ", "").charAt(1)))
+			return true;
+		
+			
+		return false;
+	}
 	
-	
+	static void convertInput(String expression)
+	{
+		String input = expression.replaceAll(" ", "");
+		game.num1 = Character.getNumericValue(input.charAt(0));
+		game.num2 = Character.getNumericValue(input.charAt(2));
+		game.op = input.charAt(1);
+		
+	}
 	
 }
