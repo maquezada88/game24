@@ -10,12 +10,11 @@ class game extends numberSeries
 	static int num1;
 	static int num2;
 	static char op ;
+	static int result;
 	
 
 	public static void main(String args[]) 
 	{
-		
-		int temp;
 		Character[] operators = {'+', '-', '*', '/'};
 		String expression;
 
@@ -49,26 +48,42 @@ class game extends numberSeries
 		else
 			nums = hard(1);
 		
-		System.out.println("Use addition, subtraction, division, or multiplication to get the sum of 24!");
-		System.out.println("List of numbers available to use:");
-		System.out.println(nums);
-		System.out.println("Enter an expression.");
+		usage(nums);
 
 		//Get string expression input.
 		expression = input.nextLine();
 		System.out.println(expression);
-		
-		
-		//make sure input is valid
-		if( ! isExpressionValid(expression, operators))
-			while(! isExpressionValid(expression, operators))
-			{
-				System.out.println("Invalid expression. Try again.");
-				expression = input.nextLine();
-			}
-		
 		convertInput(expression);
-			
+		
+		
+		//make sure input has numbers and valid operators
+		while(! isExpressionValid(expression, operators) || ! isInputValid(nums, num1, num2))
+		{
+			System.out.println("Invalid expression. Try again.");
+			expression = input.nextLine();
+			convertInput(expression);
+		}
+		
+		result = calc(num1, num2, op);		
+		System.out.println("result:\t"+result);
+		
+		tripNums = convertToTriplet(tripNums, nums, num1, num2, op);
+		
+		usage(tripNums);
+		
+		//Get string expression input.
+		expression = input.nextLine();
+		System.out.println(expression);
+		convertInput(expression);
+		
+		while( ! isExpressionValid(expression, operators))
+		{
+			System.out.println("Invalid expression. Try again.");
+			expression = input.nextLine();
+			convertInput(expression);
+		}
+		
+		input.close();
 	}
 	
 }
