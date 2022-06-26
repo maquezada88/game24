@@ -1,6 +1,7 @@
 import java.util.*;
 import org.javatuples.Quartet;
 import org.javatuples.Triplet;
+import org.javatuples.Pair;
 
 class numberSeries {
 	
@@ -106,6 +107,7 @@ class numberSeries {
 	}
 	
 	//check expression is numbers and valid operators
+	//fails if number is double digit
 	static boolean isExpressionValid(String expression, Character[] operators)
 	{
 		
@@ -120,7 +122,7 @@ class numberSeries {
 	}
 	
 	//check number inputs are in valid choices.
-	static boolean isInputValid(Quartet nums, int num1, int num2)
+	static boolean isQuartetInputValid(Quartet nums, int num1, int num2)
 	{
 		Triplet<Integer, Integer, Integer> temp;
 		
@@ -150,6 +152,35 @@ class numberSeries {
 		return true;
 	}
 	
+	//check number inputs are in valid choices.
+	static boolean isTripletInputValid(Triplet nums, int num1, int num2)
+	{
+		Pair<Integer, Integer> temp;
+		
+		if(! nums.contains((Integer)num1)) 
+		{
+			System.out.println("Number1 "+num1+" is not valid.");
+			return false;
+		}
+		else 
+		{
+			if( (Integer)num1 == nums.getValue0())
+				temp = nums.removeFrom0();
+			else if( (Integer)num1 == nums.getValue1())
+				temp = nums.removeFrom1();
+			else
+				temp = nums.removeFrom2();
+		}
+		
+		if(! temp.contains((Integer)num2)) 
+		{
+			System.out.println("Number2 "+num2+" is not valid.");
+			return false;
+		}
+		
+		return true;
+	}
+	
 	static Triplet convertToTriplet(Triplet trip, Quartet nums, Integer num1, Integer num2, char op)
 	{
 		Triplet<Integer, Integer, Integer> temp;
@@ -166,14 +197,36 @@ class numberSeries {
 			temp = nums.removeFrom3();
 		
 		//remove num2 from temporary triplet and add result
-		if( (Integer)num2 == nums.getValue0())
-			trip = temp.removeFrom0().addAt0((Integer)result);
-		else if( (Integer)num2 == nums.getValue1())
-			trip = temp.removeFrom1().addAt1((Integer)result);
-		else if( (Integer)num2 == nums.getValue2())
-			trip = temp.removeFrom2().addAt2((Integer)result);
+		if( (Integer)num2 == temp.getValue0())
+			trip = temp.removeFrom0().add((Integer)result);
+		else if( (Integer)num2 == temp.getValue1())
+			trip = temp.removeFrom1().add((Integer)result);
+		else
+			trip = temp.removeFrom2().add((Integer)result);
 		
 		return trip;
+	}
+	
+	static Pair convertToPair(Pair pair, Triplet nums, Integer num1, Integer num2, char op)
+	{
+		Pair< Integer, Integer> temp;
+		int result = calc(num1, num2, op);
+		
+		//remove num1 and create temporary triplet
+		if( (Integer)num1 == nums.getValue0())
+			temp = nums.removeFrom0();
+		else if( (Integer)num1 == nums.getValue1())
+			temp = nums.removeFrom1();
+		else
+			temp = nums.removeFrom2();
+		
+		//remove num2 from temporary triplet and add result
+		if( (Integer)num2 == temp.getValue0())
+			pair = temp.removeFrom0().add((Integer)result);
+		else
+			pair = temp.removeFrom1().add((Integer)result);
+		
+		return pair;
 	}
 	
 	//converts the arithmetic string input from user
