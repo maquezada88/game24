@@ -1,5 +1,6 @@
 import org.javatuples.Quartet;
 import org.javatuples.Triplet;
+import org.javatuples.Pair;
 import java.util.*;
 class game extends numberSeries
 {
@@ -7,6 +8,7 @@ class game extends numberSeries
 	static int difficulty;
 	static Quartet<Integer, Integer, Integer, Integer> nums;
 	static Triplet<Integer, Integer, Integer> tripNums;
+	static Pair<Integer, Integer> pairNums;
 	static int num1;
 	static int num2;
 	static char op ;
@@ -57,7 +59,7 @@ class game extends numberSeries
 		
 		
 		//make sure input has numbers and valid operators
-		while(! isExpressionValid(expression, operators) || ! isInputValid(nums, num1, num2))
+		while(! isExpressionValid(expression, operators) || ! isQuartetInputValid(nums, num1, num2))
 		{
 			System.out.println("Invalid expression. Try again.");
 			expression = input.nextLine();
@@ -76,12 +78,19 @@ class game extends numberSeries
 		System.out.println(expression);
 		convertInput(expression);
 		
-		while( ! isExpressionValid(expression, operators))
+		while( ! isExpressionValid(expression, operators) || ! isTripletInputValid(tripNums, num1, num2))
 		{
 			System.out.println("Invalid expression. Try again.");
 			expression = input.nextLine();
 			convertInput(expression);
 		}
+		
+		result = calc(num1, num2, op);		
+		System.out.println("result:\t"+result);
+		
+		pairNums = convertToPair(pairNums, tripNums, num1, num2, op);
+		
+		usage(pairNums);
 		
 		input.close();
 	}
