@@ -13,11 +13,12 @@ class game extends numberSeries
 	static int num2;
 	static char op ;
 	static int result;
+	static Character[] operators = {'+', '-', '*', '/'};
 	
 
+	@SuppressWarnings("unchecked")
 	public static void main(String args[]) 
 	{
-		Character[] operators = {'+', '-', '*', '/'};
 		String expression;
 
 		System.out.println("Welcome to 24.");
@@ -39,7 +40,7 @@ class game extends numberSeries
 		}
 		
 		
-		//skip remaining line
+		//skip remaining line from int
 		input.nextLine();
 		
 		//get list depending on difficulty
@@ -56,6 +57,7 @@ class game extends numberSeries
 		expression = input.nextLine();
 		System.out.println(expression);
 		convertInput(expression);
+		
 		
 		
 		//make sure input has numbers and valid operators
@@ -91,6 +93,23 @@ class game extends numberSeries
 		pairNums = convertToPair(pairNums, tripNums, num1, num2, op);
 		
 		usage(pairNums);
+		expression = input.nextLine();
+		convertInput(expression);
+		
+		while( ! isExpressionValid(expression, operators) || ! isPairInputValid(pairNums, num1, num2))
+		{
+			System.out.println("Invalid expression. Try again.");
+			expression = input.nextLine();
+			convertInput(expression);
+		}
+		
+		result = calc(num1, num2, op);
+		System.out.println("result:\t"+result);
+		
+		if(result == 24)
+			System.out.println("Congrats you win!");
+		else
+			System.out.println("Sorry. Try again.");
 		
 		input.close();
 	}
