@@ -30,6 +30,7 @@ class numberSeries {
 		return null;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static Quartet med(int numOfSeries){
 		
 		Quartet<Integer, Integer, Integer, Integer> q1 = new Quartet<Integer, Integer, Integer, Integer>(2,8,4,7);
@@ -54,6 +55,7 @@ class numberSeries {
 		return null;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static Quartet hard(int numOfSeries){
 		
 		Quartet<Integer, Integer, Integer, Integer> q1 = new Quartet<Integer, Integer, Integer, Integer>(1,8,4,5);
@@ -111,11 +113,22 @@ class numberSeries {
 	static boolean isExpressionValid(String expression, Character[] operators)
 	{
 		
-		List<Character> charList = new ArrayList<>(Arrays.asList(operators));
+		//List<Character> charList = new ArrayList<>(Arrays.asList(operators));
 		
-		if( Character.isDigit(expression.replaceAll(" ", "").charAt(0)) && Character.isDigit(expression.replaceAll(" ", "").charAt(2))
-				&& charList.contains(expression.replaceAll(" ", "").charAt(1)))
-			return true;
+		String input = expression.replaceAll(" ", "");
+		int count = 0;
+		
+		for(char op: operators) {
+			if(input.indexOf(op) > -1)
+			{
+				count = input.indexOf(op);
+				return true;
+			}
+		}
+				
+		//if( Character.isDigit(expression.replaceAll(" ", "").charAt(0)) && Character.isDigit(expression.replaceAll(" ", "").charAt(2))
+		//		&& charList.contains(expression.replaceAll(" ", "").charAt(1)))
+		//	return true;
 		
 			
 		return false;
@@ -153,6 +166,7 @@ class numberSeries {
 	}
 	
 	//check number inputs are in valid choices.
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	static boolean isTripletInputValid(Triplet nums, int num1, int num2)
 	{
 		Pair<Integer, Integer> temp;
@@ -181,6 +195,27 @@ class numberSeries {
 		return true;
 	}
 	
+	@SuppressWarnings("rawtypes")
+	static boolean isPairInputValid(Pair nums, int num1, int num2)
+	{
+		
+		if(! nums.contains((Integer)num1)) 
+		{
+			System.out.println("Number1 "+num1+" is not valid.");
+			return false;
+		}
+		
+		if(! nums.contains((Integer)num2))
+		{
+			System.out.println("Number2 "+num2+" is not valid.");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	static Triplet convertToTriplet(Triplet trip, Quartet nums, Integer num1, Integer num2, char op)
 	{
 		Triplet<Integer, Integer, Integer> temp;
@@ -207,6 +242,7 @@ class numberSeries {
 		return trip;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	static Pair convertToPair(Pair pair, Triplet nums, Integer num1, Integer num2, char op)
 	{
 		Pair< Integer, Integer> temp;
@@ -234,9 +270,16 @@ class numberSeries {
 	static void convertInput(String expression)
 	{
 		String input = expression.replaceAll(" ", "");
-		game.num1 = Character.getNumericValue(input.charAt(0));
-		game.num2 = Character.getNumericValue(input.charAt(2));
-		game.op = input.charAt(1);
+		int count = 0;
+		
+		for(char op: game.operators) {
+			if(input.indexOf(op) > -1)
+				count = input.indexOf(op);
+		}
+		
+		game.num1 = Integer.parseInt(input.substring(0, count));
+		game.num2 = Integer.parseInt(input.substring(count+1));
+		game.op = input.charAt(count);
 		
 	}
 	
